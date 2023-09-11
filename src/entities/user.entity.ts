@@ -39,5 +39,5 @@ export class UserEntity {
         name: 'role',
         referencedColumnName: 'uuid'
     })
-    roles: RoleEntity;
+    role: RoleEntity;
 }
