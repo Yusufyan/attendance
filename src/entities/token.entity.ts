@@ -31,6 +31,6 @@ export class TokenEntity {
         name: 'user',
         referencedColumnName: 'uuid'
     })
-    users: UserEntity;
+    user: UserEntity;
 
 }

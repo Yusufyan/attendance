@@ -14,7 +14,7 @@ export class RoleEntity {
     @Column({ length: 20, nullable: false })
     name: string;
 
-    @Column({ length: 5 })
+    @Column({ length: 5, unique: true })
     code: string;
 
     @Column({ default: true })

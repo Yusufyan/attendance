@@ -29,8 +29,8 @@ export class UserEntity {
     @Column({ nullable: true })
     updated_at: Date;
     
-    @OneToMany(() => TokenEntity, (token) => token.users, { cascade: true })
-    token: TokenEntity[];
+    @OneToMany(() => TokenEntity, (token) => token.user, { cascade: true })
+    tokens: TokenEntity[];
 
     @ManyToOne(() => RoleEntity, (role) => role.code, {
         nullable: false

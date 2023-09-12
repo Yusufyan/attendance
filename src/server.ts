@@ -6,6 +6,7 @@ import { env } from "./configs/environment.config";
 import { createConnection } from "typeorm";
 import { configDb } from "./configs/database.config";
 import { logging } from "./utils/logging.util";
+import { RolePermission } from "./seeders/role-permission.seeder";
 
 const app: Application = express();
 const port: number = Number(env.APP_PORT);
@@ -24,7 +25,7 @@ createConnection(configDb)
         app.listen(port, () => {
             logging.info(`Server running on http://${env.APP_HOST}:${port}`);
         });
-        // await RolePermission();
+        //await RolePermission();
     })
     .catch((e) => {
         logging.error(`Unable to connect to database ${e}`)
