@@ -32,12 +32,12 @@ export class UserEntity {
     @OneToMany(() => TokenEntity, (token) => token.users, { cascade: true })
     token: TokenEntity[];
 
-    @ManyToOne(() => RoleEntity, (role) => role.uuid, {
+    @ManyToOne(() => RoleEntity, (role) => role.code, {
         nullable: false
     })
     @JoinColumn({
         name: 'role',
-        referencedColumnName: 'uuid'
+        referencedColumnName: 'code'
     })
     role: RoleEntity;
 }

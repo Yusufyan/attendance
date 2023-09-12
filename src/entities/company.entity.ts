@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { BiodataEntity } from "./biodata.entity";
 
 @Entity("companies")
@@ -24,7 +24,16 @@ export class CompanyEntity {
     @Column({ nullable: true })
     updated_at: Date;
 
-    @OneToMany(() => BiodataEntity, (biodata) => biodata.companies )
+    @OneToOne(() => BiodataEntity, (biodata) => biodata.uuid,{
+        nullable: false
+    })
+    @JoinColumn({
+        name: 'biodata',
+        referencedColumnName: 'uuid'
+    })
     biodata: BiodataEntity;
+
+    @OneToMany(() => BiodataEntity, (biodata) => biodata.company )
+    biodatas: BiodataEntity;
     
 }

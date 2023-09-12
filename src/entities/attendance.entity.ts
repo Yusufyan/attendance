@@ -1,4 +1,5 @@
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BiodataEntity } from "./biodata.entity";
 
 
 @Entity("attendances")
@@ -24,4 +25,13 @@ export class AttendanceEntity {
     @Column()
     at_office: boolean;
 
+    @ManyToOne(() => BiodataEntity, (biodata) => biodata.uuid, {
+        cascade: true,
+        nullable: false
+    })
+    @JoinColumn({
+        name: 'biodata',
+        referencedColumnName: 'uuid'
+    })
+    biodata: BiodataEntity
 }

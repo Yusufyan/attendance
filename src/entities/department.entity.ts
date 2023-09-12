@@ -19,7 +19,7 @@ export class DepartmentEntity {
     @Column({ nullable: true })
     updated_at: Date;
 
-    @OneToMany(() => BiodataEntity, (biodata) => biodata.departments)
+    @OneToMany(() => BiodataEntity, (biodata) => biodata.department)
     biodata: BiodataEntity[];
 
 }

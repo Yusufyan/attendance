@@ -1,7 +1,8 @@
-import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { UserEntity } from "./user.entity";
 import { DepartmentEntity } from "./department.entity";
 import { CompanyEntity } from "./company.entity";
+import { AttendanceEntity } from "./attendance.entity";
 
 
 @Entity("biodatas")
@@ -19,7 +20,7 @@ export class BiodataEntity {
     employee_type: string;
 
     @Column({ length: 50 })
-    designations: string;
+    designation: string;
 
     @Column({ length: 100, nullable: false })
     fullname: string;
@@ -51,16 +52,40 @@ export class BiodataEntity {
     @Column({ nullable: true })
     updated_at: Date;
 
+    @OneToMany(() => AttendanceEntity, (attendance) => attendance.uuid)
+    attandances: AttendanceEntity[];
+
     //User Relation
-    @OneToOne(() => UserEntity, (user) => user.uuid, { cascade: true })
-    user: UserEntity;
+    @OneToOne(() => UserEntity, (user) => user.uuid, { 
+        cascade: true,
+        nullable: true
+     })
+     @JoinColumn({
+        name: 'user',
+        referencedColumnName: 'uuid'
+     })
+     user: UserEntity;
 
     //Company Relation
-    @ManyToOne(() => CompanyEntity, (company) => company.uuid)
-    companies: CompanyEntity;
+    @ManyToOne(() => CompanyEntity, (company) => company.uuid, {
+        cascade: true,
+        nullable: true
+    })
+    @JoinColumn({
+        name: 'company',
+        referencedColumnName: 'uuid'
+    })
+    company: CompanyEntity;
 
     //Department Relation  
-    @ManyToOne(() => DepartmentEntity, (department) => department.uuid)
-    departments: DepartmentEntity;
+    @ManyToOne(() => DepartmentEntity, (department) => department.uuid, {
+        cascade: true,
+        nullable: false
+    })
+    @JoinColumn({
+        name: 'department',
+        referencedColumnName: 'uuid'
+    })
+    department: DepartmentEntity;
 
 }
