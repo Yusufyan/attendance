@@ -7,6 +7,7 @@ import { createConnection } from "typeorm";
 import { configDb } from "./configs/database.config";
 import { logging } from "./utils/logging.util";
 import { RolePermission } from "./seeders/role-permission.seeder";
+import authRouter from "./routers/auth.router";
 
 const app: Application = express();
 const port: number = Number(env.APP_PORT);
@@ -31,3 +32,6 @@ createConnection(configDb)
         logging.error(`Unable to connect to database ${e}`)
         process.exit
     })
+
+//Auth Router    
+app.use("/auth", authRouter)
