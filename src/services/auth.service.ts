@@ -17,7 +17,7 @@ export async function getUserByEmailOrUsername(usernameOrEmail: string): Promise
             }
         }
     });
-    console.log(result)
+    
     return result
 }
 

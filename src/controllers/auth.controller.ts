@@ -5,7 +5,7 @@ import { LoginUserDTO } from "../dtos/user.dto";
 import { getUserByEmailOrUsername, validatePassword } from "../services/auth.service";
 import { env } from "../configs/environment.config";
 
-export async function LoginController (req: Request, res: Response) {
+export async function loginController (req: Request, res: Response) {
     try {
         const body = req.body as LoginUserDTO;
 

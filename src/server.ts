@@ -8,6 +8,7 @@ import { configDb } from "./configs/database.config";
 import { logging } from "./utils/logging.util";
 import { RolePermission } from "./seeders/role-permission.seeder";
 import authRouter from "./routers/auth.router";
+import departmentRouter from "./routers/department.router";
 
 const app: Application = express();
 const port: number = Number(env.APP_PORT);
@@ -35,3 +36,6 @@ createConnection(configDb)
 
 //Auth Router    
 app.use("/auth", authRouter)
+
+//Department Router
+app.use("/department", departmentRouter)
