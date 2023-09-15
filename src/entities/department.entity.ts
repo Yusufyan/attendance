@@ -13,6 +13,9 @@ export class DepartmentEntity {
     @Column({ length: 50, nullable: false })
     name: string;
 
+    @Column()
+    slug: string;
+
     @Column({ nullable: false, default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date;
 

@@ -17,6 +17,9 @@ export class UserEntity {
     @Column({ length: 100, nullable: false })
     username: string;
 
+    @Column()
+    slug: string;
+
     @Column({ nullable: false })
     password: string;
 

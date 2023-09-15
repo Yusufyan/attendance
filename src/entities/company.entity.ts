@@ -16,6 +16,9 @@ export class CompanyEntity {
     name: string;
 
     @Column()
+    slug: string;
+
+    @Column()
     address: string;
 
     @Column({ nullable: false, default: () => 'CURRENT_TIMESTAMP' })

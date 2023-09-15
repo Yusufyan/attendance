@@ -21,6 +21,8 @@ export async function getUserByEmailOrUsername(usernameOrEmail: string): Promise
     return result
 }
 
+
+
 export async function validatePassword(user:UserEntity, password: string): Promise<boolean>{
     return bcrypt.compare(password, user.password)
 }
