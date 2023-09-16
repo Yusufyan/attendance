@@ -16,7 +16,7 @@ export async function createDepartmentController(req: Request, res: Response) {
     }
 }
 
-export async function getDepartmentByNameCont(req: Request, res: Response) {
+export async function getDepartmentByNameController(req: Request, res: Response) {
     try {
         const body = req.body
         const response = getDepartmentByName(body)

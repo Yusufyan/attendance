@@ -6,7 +6,7 @@ import { authMiddleware } from "../middlewares/auth.middleware";
 const departmentRouter = express.Router()
 
 departmentRouter.post(
-    "/insert",
+    "/",
     authMiddleware,
     createDepartmentController
 )
