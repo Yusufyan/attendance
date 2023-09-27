@@ -5,6 +5,7 @@ import { RoleEntity } from "../entities/role.entity";
 import { PermissionEntity } from "../entities/permission.entity";
 import { UserEntity } from "../entities/user.entity";
 import { v4 } from "uuid";
+import slugify from "slugify";
 
 export const RolePermission = async () => {
     const connection = getConnection();
@@ -85,12 +86,13 @@ export const RolePermission = async () => {
         permissions: permissionId
     })
 
+    const name = "Tuna Salem"
     const user = await userRepository.save({
         uuid: v4(),
         email: "tunasalem@gmail.com",
         username: "tunasalem13",
         password: await bcrypt.hash("Password01", 10),
-        name: "Tuna Salem",
+        slug: slugify(name,"-").toLowerCase(),
         phone: "081810180801",
         role: role
     })

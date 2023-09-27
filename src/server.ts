@@ -27,7 +27,7 @@ createConnection(configDb)
         app.listen(port, () => {
             logging.info(`Server running on http://${env.APP_HOST}:${port}`);
         });
-        //await RolePermission();
+        // await RolePermission();
     })
     .catch((e) => {
         logging.error(`Unable to connect to database ${e}`)
