@@ -1,37 +1,43 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { BiodataEntity } from "./biodata.entity";
-
 
 @Entity("attendances")
 export class AttendanceEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({ length: 50 })
-    uuid: string;
+  @Column({ length: 50 })
+  uuid: string;
 
-    @Column({ length: 50 })
-    employee: string;
-    
-    @Column()
-    checkin: Date;
+  @Column({ length: 50 })
+  employee: string;
 
-    @Column()
-    checkout: Date;
+  @Column()
+  checkin: Date;
 
-    @Column()
-    evidence: string;
+  @Column()
+  checkout: Date;
 
-    @Column()
-    at_office: boolean;
+  @Column()
+  evidence: string;
 
-    @ManyToOne(() => BiodataEntity, (biodata) => biodata.uuid, {
-        cascade: true,
-        nullable: false
-    })
-    @JoinColumn({
-        name: 'biodata',
-        referencedColumnName: 'uuid'
-    })
-    biodata: BiodataEntity
+  @Column()
+  at_office: boolean;
+
+  @ManyToOne(() => BiodataEntity, (biodata) => biodata.uuid, {
+    cascade: true,
+    nullable: false,
+  })
+  @JoinColumn({
+    name: "biodata",
+    referencedColumnName: "uuid",
+  })
+  biodata: BiodataEntity;
 }

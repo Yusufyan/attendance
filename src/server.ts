@@ -18,24 +18,24 @@ app.use(cors());
 
 //Check health
 app.get("/", (req: Request, res: Response) => {
-    res.json({ msg: "Healthy buddy" })
+  res.json({ msg: "Healthy buddy" });
 });
 
 createConnection(configDb)
-    .then( async () => {
-        logging.info(`Database connection established`);
-        app.listen(port, () => {
-            logging.info(`Server running on http://${env.APP_HOST}:${port}`);
-        });
-        // await RolePermission();
-    })
-    .catch((e) => {
-        logging.error(`Unable to connect to database ${e}`)
-        process.exit
-    })
+  .then(async () => {
+    logging.info(`Database connection established`);
+    app.listen(port, () => {
+      logging.info(`Server running on http://${env.APP_HOST}:${port}`);
+    });
+    // await RolePermission();
+  })
+  .catch((e) => {
+    logging.error(`Unable to connect to database ${e}`);
+    process.exit;
+  });
 
-//Auth Router    
-app.use("/auth", authRouter)
+//Auth Router
+app.use("/auth", authRouter);
 
 //Department Router
-app.use("/department", departmentRouter)
+app.use("/department", departmentRouter);
