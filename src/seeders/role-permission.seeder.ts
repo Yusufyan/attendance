@@ -73,7 +73,6 @@ export const RolePermission = async () => {
 
   for (const permissionName of permissionNameList) {
     const permission = await permissionRepository.save({
-      uuid: v4(),
       name: permissionName,
     });
     permissionId.push(permission);

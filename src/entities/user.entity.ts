@@ -8,14 +8,11 @@ import {
 } from "typeorm";
 import { RoleEntity } from "./role.entity";
 import { TokenEntity } from "./token.entity";
-
+import { v4 as uuidv4 } from 'uuid'
 @Entity("users")
 export class UserEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ length: 50, unique: true })
-  uuid: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ length: 100, nullable: false })
   email: string;
@@ -38,9 +35,11 @@ export class UserEntity {
   @Column({ nullable: true })
   updated_at: Date;
 
+  //Token Relation
   @OneToMany(() => TokenEntity, (token) => token.user, { cascade: true })
   tokens: TokenEntity[];
 
+  //Role Relation
   @ManyToOne(() => RoleEntity, (role) => role.code, {
     nullable: false,
   })

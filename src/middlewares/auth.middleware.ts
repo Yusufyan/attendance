@@ -24,7 +24,7 @@ export const authMiddleware = (
       userId: string;
       roleId: string;
     };
-
+    
     req.userId = decodeToken.userId;
     req.roleId = decodeToken.roleId;
 

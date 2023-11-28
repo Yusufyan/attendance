@@ -1,45 +1,49 @@
-import { Column, Entity, Generated, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  Generated,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { PermissionEntity } from "./permission.entity";
 import { UserEntity } from "./user.entity";
 
 @Entity("roles")
 export class RoleEntity {
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column({ length: 20, nullable: false })
+  name: string;
 
-    @Column({ length: 50, unique: true })
-    uuid: string;
+  @Column({ length: 5, unique: true })
+  code: string;
 
-    @Column({ length: 20, nullable: false })
-    name: string;
+  @Column({ default: true })
+  is_active: boolean;
 
-    @Column({ length: 5, unique: true })
-    code: string;
+  @Column({ nullable: false, default: () => "CURRENT_TIMESTAMP" })
+  created_at: Date;
 
-    @Column({ default: true })
-    is_active: boolean;
+  @Column({ nullable: true })
+  updated_at: Date;
 
-    @Column({ nullable: false, default: () => 'CURRENT_TIMESTAMP' })
-    created_at: Date;
+  @OneToMany(() => UserEntity, (user) => user.role, { cascade: true })
+  user: UserEntity[];
 
-    @Column({ nullable: true })
-    updated_at: Date;
-
-    @OneToMany(() => UserEntity, (user) => user.role, { cascade: true })
-    user: UserEntity[];
-
-    @ManyToMany(() => PermissionEntity, { cascade: true })
-    @JoinTable({
-        name: 'role_permission',
-        joinColumn: { 
-            name: 'role',
-            referencedColumnName: 'uuid' 
-        },
-        inverseJoinColumn: {
-            name: 'permission',
-            referencedColumnName: 'uuid'
-        }
-    })
-    permissions: PermissionEntity[];
+  @ManyToMany(() => PermissionEntity, { cascade: true })
+  @JoinTable({
+    name: "role_permission",
+    joinColumn: {
+      name: "role",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "permission",
+      referencedColumnName: "id",
+    },
+  })
+  permissions: PermissionEntity[];
 }

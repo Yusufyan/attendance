@@ -14,11 +14,8 @@ import { AttendanceEntity } from "./attendance.entity";
 
 @Entity("biodatas")
 export class BiodataEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ length: 50, unique: true })
-  uuid: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ length: 10 })
   employee_id: string;
@@ -59,39 +56,39 @@ export class BiodataEntity {
   @Column({ nullable: true })
   updated_at: Date;
 
-  @OneToMany(() => AttendanceEntity, (attendance) => attendance.uuid)
+  @OneToMany(() => AttendanceEntity, (attendance) => attendance.id)
   attandances: AttendanceEntity[];
 
   //User Relation
-  @OneToOne(() => UserEntity, (user) => user.uuid, {
+  @OneToOne(() => UserEntity, (user) => user.id, {
     cascade: true,
     nullable: true,
   })
   @JoinColumn({
     name: "user",
-    referencedColumnName: "uuid",
+    referencedColumnName: "id",
   })
   user: UserEntity;
 
   //Company Relation
-  @ManyToOne(() => CompanyEntity, (company) => company.uuid, {
+  @ManyToOne(() => CompanyEntity, (company) => company.id, {
     cascade: true,
     nullable: true,
   })
   @JoinColumn({
     name: "company",
-    referencedColumnName: "uuid",
+    referencedColumnName: "id",
   })
   company: CompanyEntity;
 
   //Department Relation
-  @ManyToOne(() => DepartmentEntity, (department) => department.uuid, {
+  @ManyToOne(() => DepartmentEntity, (department) => department.id, {
     cascade: true,
     nullable: false,
   })
   @JoinColumn({
     name: "department",
-    referencedColumnName: "uuid",
+    referencedColumnName: "id",
   })
   department: DepartmentEntity;
 }

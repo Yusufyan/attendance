@@ -9,5 +9,5 @@ export const env = {
   DB_USERNAME: process.env.DB_USERNAME,
   DB_PASSWORD: process.env.DB_PASSWORD,
   DB_DBNAME: process.env.DB_DBNAME,
-  SECRET_KEY: process.env.SECRET,
+  SECRET_KEY: process.env.SECRET_KEY,
 };

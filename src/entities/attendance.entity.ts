@@ -10,11 +10,8 @@ import { BiodataEntity } from "./biodata.entity";
 
 @Entity("attendances")
 export class AttendanceEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ length: 50 })
-  uuid: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ length: 50 })
   employee: string;
@@ -31,13 +28,13 @@ export class AttendanceEntity {
   @Column()
   at_office: boolean;
 
-  @ManyToOne(() => BiodataEntity, (biodata) => biodata.uuid, {
+  @ManyToOne(() => BiodataEntity, (biodata) => biodata.id, {
     cascade: true,
     nullable: false,
   })
   @JoinColumn({
     name: "biodata",
-    referencedColumnName: "uuid",
+    referencedColumnName: "id",
   })
   biodata: BiodataEntity;
 }

@@ -1,4 +1,3 @@
-import { v4 } from "uuid";
 import { DepartmentEntity } from "../entities/department.entity";
 import { getManager } from "typeorm";
 import { CreateDepartmentDTO } from "../dtos/department.dto";
@@ -6,12 +5,12 @@ import slugify from "slugify";
 
 export async function genDepartment(
   body: CreateDepartmentDTO
-): Promise<DepartmentEntity> {
+): Promise<any> {
   const entityManager = getManager();
   return entityManager.save(DepartmentEntity, {
-    uuid: v4(),
     name: body.name,
     slug: slugify(body.name.toLowerCase(), "-"),
+    is_active: true,
   });
 }
 
@@ -30,9 +29,9 @@ export async function getDepartmentByName(
 }
 
 export async function updateDepartment(
-  id: number,
+  id: any,
   name: string
-): Promise<DepartmentEntity | undefined> {
+): Promise<DepartmentEntity | boolean> {
   const entityManager = getManager();
   const department = await entityManager.findOne(DepartmentEntity, {
     where: { id },
@@ -42,10 +41,23 @@ export async function updateDepartment(
     department.slug = slugify(name.toLocaleLowerCase()) || department.slug;
     return await entityManager.save(department);
   }
-  return undefined;
+  return false;
 }
 
-export async function deleteDepartment(id: number): Promise<boolean> {
+export async function softDeleteDepartment(id: any): Promise<any> {
+  const entityManager = getManager();
+  const department = await entityManager.findOne(DepartmentEntity, {
+    where: { id },
+  });
+  if (department) {
+    return await entityManager.update(DepartmentEntity, id, {
+      is_active: false,
+    });
+  }
+  return false;
+}
+
+export async function deleteDepartment(id: string): Promise<any> {
   const entityManager = getManager();
   const department = await entityManager.findOne(DepartmentEntity, {
     where: { id },

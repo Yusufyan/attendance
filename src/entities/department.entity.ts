@@ -3,17 +3,17 @@ import { BiodataEntity } from "./biodata.entity";
 
 @Entity("departments")
 export class DepartmentEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ length: 50, unique: true })
-  uuid: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ length: 50, nullable: false })
   name: string;
 
   @Column()
   slug: string;
+
+  @Column()
+  is_active: boolean;
 
   @Column({ nullable: false, default: () => "CURRENT_TIMESTAMP" })
   created_at: Date;

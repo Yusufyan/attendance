@@ -9,11 +9,8 @@ import { UserEntity } from "./user.entity";
 
 @Entity("tokens")
 export class TokenEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ length: 50, unique: true })
-  uuid: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   token: string;
@@ -30,12 +27,12 @@ export class TokenEntity {
   @Column({ nullable: true })
   updated_at: Date;
 
-  @ManyToOne(() => UserEntity, (user) => user.uuid, {
+  @ManyToOne(() => UserEntity, (user) => user.id, {
     nullable: false,
   })
   @JoinColumn({
     name: "user",
-    referencedColumnName: "uuid",
+    referencedColumnName: "id",
   })
   user: UserEntity;
 }

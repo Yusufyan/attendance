@@ -36,6 +36,5 @@ createConnection(configDb)
 
 //Auth Router
 app.use("/auth", authRouter);
-
 //Department Router
 app.use("/department", departmentRouter);
