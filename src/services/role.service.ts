@@ -1,5 +1,5 @@
 import { RoleRequestDTO } from "src/dtos/role.dto";
-import { RoleEntity } from "src/entities/role.entity";
+import { RoleEntity } from "src/models/role.model";
 import { getManager } from "typeorm";
 import { v4 } from "uuid";
 

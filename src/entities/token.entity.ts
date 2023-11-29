@@ -1,38 +1,12 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
-import { UserEntity } from "./user.entity";
+import { IUser } from "./user.entity";
 
-@Entity("tokens")
-export class TokenEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+export interface IToken {
+  id?: string;
+  token?: string;
+  is_active?: boolean;
+  expired_in?: Date;
+  created_at?: Date;
+  updated_at?: Date;
 
-  @Column()
-  token: string;
-
-  @Column({ default: true })
-  is_active: boolean;
-
-  @Column()
-  expired_in: Date;
-
-  @Column({ nullable: false, default: () => "CURRENT_TIMESTAMP" })
-  created_at: Date;
-
-  @Column({ nullable: true })
-  updated_at: Date;
-
-  @ManyToOne(() => UserEntity, (user) => user.id, {
-    nullable: false,
-  })
-  @JoinColumn({
-    name: "user",
-    referencedColumnName: "id",
-  })
-  user: UserEntity;
+  user: IUser
 }

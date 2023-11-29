@@ -5,7 +5,8 @@ export interface LoginUserDTO {
 
 export interface RegisUserDTO {
   email: string
-  username: string
+  name: string
+  phone: number
   password: string
   role: number
 }

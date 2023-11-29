@@ -15,10 +15,9 @@ import { AppException } from "../utils/exception.util"
 export async function createDepartmentController(req: Request, res: Response) {
   try {
     const body = req.body as CreateDepartmentDTO
-    console.log(body)
     const response = await genDepartment(body)
-    console.log(response)
-    res.status(200).json({ message: "Success. Department added", data: response })
+
+    res.status(200).json({ statusCode: response.statusCode, message: response.message, data: response.data })
   } catch (error) {
     res.status(500).json({ error: "Interal server error" })
   }

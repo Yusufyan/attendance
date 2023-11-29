@@ -1,9 +1,9 @@
 import { getConnection, getRepository } from "typeorm";
 import bcrypt from "bcrypt";
 
-import { RoleEntity } from "../entities/role.entity";
-import { PermissionEntity } from "../entities/permission.entity";
-import { UserEntity } from "../entities/user.entity";
+import { RoleEntity } from "../models/role.model";
+import { PermissionEntity } from "../models/permission.model";
+import { UserEntity } from "../models/user.model";
 import { v4 } from "uuid";
 import slugify from "slugify";
 

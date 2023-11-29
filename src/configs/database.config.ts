@@ -8,6 +8,6 @@ export const configDb: ConnectionOptions = {
   username: env.DB_USERNAME,
   password: env.DB_PASSWORD,
   database: env.DB_DBNAME,
-  entities: ["src/entities/*.entity.ts"],
+  entities: ["src/models/*.model.ts"],
   synchronize: true,
 };

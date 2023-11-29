@@ -1,40 +1,12 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToMany,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
-import { BiodataEntity } from "./biodata.entity";
+import { IBiodata } from "./biodata.entity";
 
-@Entity("attendances")
-export class AttendanceEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+export interface IAttendance {
+  id?: string;
+  employee?: string
+  checkin?: Date;
+  checkout?: Date;
+  evidence?: string;
+  at_office?: boolean;
 
-  @Column({ length: 50 })
-  employee: string;
-
-  @Column()
-  checkin: Date;
-
-  @Column()
-  checkout: Date;
-
-  @Column()
-  evidence: string;
-
-  @Column()
-  at_office: boolean;
-
-  @ManyToOne(() => BiodataEntity, (biodata) => biodata.id, {
-    cascade: true,
-    nullable: false,
-  })
-  @JoinColumn({
-    name: "biodata",
-    referencedColumnName: "id",
-  })
-  biodata: BiodataEntity;
+  biodata: IBiodata;
 }
