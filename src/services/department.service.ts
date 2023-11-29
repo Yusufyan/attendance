@@ -1,18 +1,16 @@
 import { DepartmentEntity } from "../models/department.model";
 import { getManager } from "typeorm";
-import { CreateDepartmentDTO } from "../dtos/department.dto";
+import { CreateDepartmentDTO, UpdDepartmentByNameDTO } from "../dtos/department.dto";
 import { Response } from "../helpers/response.helper";
 import slugify from "slugify";
 
-export async function genDepartment(
-  body: CreateDepartmentDTO
-): Promise<any> {
+export async function genDepartment(body: CreateDepartmentDTO): Promise<any> {
   const entityManager = getManager();
   const existDepartment = await entityManager.findOne(DepartmentEntity, {
-    where: { name: body.name }
-  })
+    where: { name: body.name },
+  });
 
-  if(existDepartment) return Response(409, 'Department Data Duplicate', '')
+  if (existDepartment) return Response(409, "Department Data Duplicate", "");
 
   return entityManager.save(DepartmentEntity, {
     name: body.name,
@@ -36,18 +34,22 @@ export async function getDepartmentByName(
 }
 
 export async function updateDepartment(
-  id: any,
-  name: string
+  id: string,
+  dto: UpdDepartmentByNameDTO
 ): Promise<DepartmentEntity | boolean> {
   const entityManager = getManager();
   const department = await entityManager.findOne(DepartmentEntity, {
-    where: { id },
+    where: { id: id },
   });
+  console.log(dto)
+
   if (department) {
-    department.name = name || department.name;
-    department.slug = slugify(name.toLocaleLowerCase()) || department.slug;
+    department.name = dto.name || department.name;
+    department.slug = slugify(dto.name.toLowerCase()) || department.slug;
+    department.updated_at = new Date()
     return await entityManager.save(department);
   }
+
   return false;
 }
 

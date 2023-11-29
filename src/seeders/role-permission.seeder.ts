@@ -69,20 +69,88 @@ export const RolePermission = async () => {
     "delete:attendance",
   ];
 
+  const permissionNameListHR = [
+    "create:user",
+    "read:user",
+    "update:user",
+    "delete:user",
+    "create:department",
+    "read:department",
+    "update:department",
+    "delete:department",
+    "create:biodata",
+    "read:biodata",
+    "update:biodata",
+    "delete:biodata",
+    "create:attendance",
+    "read:attendance",
+    "update:attendance",
+    "delete:attendance",
+  ];
+
+  const permissionNameListEmployee = [
+    "create:user",
+    "read:user",
+    "update:user",
+    "delete:user",
+    "create:department",
+    "read:department",
+    "update:department",
+    "delete:department",
+    "create:biodata",
+    "read:biodata",
+    "update:biodata",
+    "delete:biodata",
+    "create:attendance",
+    "read:attendance",
+    "update:attendance",
+    "delete:attendance",
+  ];
+
   let permissionId = [];
+  let permissionIdHR = [];
+  let permissionIdEmpl = [];
 
   for (const permissionName of permissionNameList) {
     const permission = await permissionRepository.save({
       name: permissionName,
     });
+
     permissionId.push(permission);
   }
 
+  for (const permissionName of permissionNameListHR) {
+    const permission = await permissionRepository.save({
+      name: permissionName,
+    });
+
+    permissionIdHR.push(permission);
+  }
+
+  for (const permissionName of permissionNameListEmployee) {
+    const permission = await permissionRepository.save({
+      name: permissionName,
+    });
+
+    permissionIdEmpl.push(permission);
+  }
+
   const role = await roleRepository.save({
-    uuid: v4(),
-    name: "Moderator",
-    code: "MDRTR",
+    name: "Super Admin",
+    code: "SPRDMN",
     permissions: permissionId,
+  });
+
+  await roleRepository.save({
+    name: "HR",
+    code: "HR",
+    permissions: permissionIdHR,
+  });
+
+  await roleRepository.save({
+    name: "Employee",
+    code: "MPLY",
+    permissions: permissionIdEmpl,
   });
 
   const name = "Tuna Salem";

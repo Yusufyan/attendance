@@ -14,7 +14,7 @@ const departmentRouter = express.Router();
 departmentRouter.get("/", authMiddleware, getAllDepartmentController);
 departmentRouter.get("/:name", authMiddleware, getDepartmentDetailController);
 departmentRouter.post("/", authMiddleware, createDepartmentController);
-departmentRouter.patch("/", authMiddleware, updateDepartmentController);
+departmentRouter.patch("/:id", authMiddleware, updateDepartmentController);
 departmentRouter.delete("/", authMiddleware, softDeleteDepartmentController);
 
 export default departmentRouter;

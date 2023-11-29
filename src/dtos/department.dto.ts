@@ -7,3 +7,7 @@ export class CreateDepartmentDTO {
 export class GetDepartmentByNameDTO {
   name: string;
 }
+
+export class UpdDepartmentByNameDTO {
+  name: string;
+}

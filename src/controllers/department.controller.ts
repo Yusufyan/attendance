@@ -9,6 +9,7 @@ import {
 import {
   CreateDepartmentDTO,
   GetDepartmentByNameDTO,
+  UpdDepartmentByNameDTO,
 } from "../dtos/department.dto"
 import { AppException } from "../utils/exception.util"
 
@@ -26,7 +27,7 @@ export async function createDepartmentController(req: Request, res: Response) {
 export async function getAllDepartmentController(req: Request, res: Response) {
   try {
     const response = await getAllDepartment()
-    console.log(response)
+
     res.status(200).json({ message: "Success", data: response })
   } catch (error) {
     res.status(500).json({ error: "Internal server error" })
@@ -53,8 +54,8 @@ export async function getDepartmentDetailController(
 
 export async function updateDepartmentController(req: Request, res: Response) {
   try {
-    const param = req.params
-    const body = req.body
+    const param = req.params.id
+    const body = req.body as UpdDepartmentByNameDTO
     const response = await updateDepartment(param, body)
 
     if (!response) {

@@ -19,7 +19,7 @@ export class RoleEntity implements IRole {
   @Column({ length: 20, nullable: false })
   name: string;
 
-  @Column({ length: 5, unique: true })
+  @Column({ length: 8, unique: true })
   code: string;
 
   @Column({ default: true })
