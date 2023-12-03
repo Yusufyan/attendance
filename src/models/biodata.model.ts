@@ -1,11 +1,14 @@
 import {
+  BeforeInsert,
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { UserEntity } from "./user.model";
 import { DepartmentEntity } from "./department.model";
@@ -21,40 +24,40 @@ export class BiodataEntity implements IBiodata {
   @Column({ length: 10 })
   employee_id: string;
 
-  @Column({ length: 50 })
+  @Column({ length: 50, nullable: true })
   employee_type: string;
 
-  @Column({ length: 50 })
+  @Column({ length: 50, nullable: true })
   designation: string;
 
-  @Column({ length: 100, nullable: false })
+  @Column({ length: 100, nullable: true })
   fullname: string;
 
-  @Column()
+  @Column({nullable: true})
   address: string;
 
   @Column({ length: 13, nullable: false })
   phone: string;
 
-  @Column({ length: 20 })
+  @Column({ length: 20, nullable: true })
   city_of_birth: string;
 
-  @Column()
+  @Column({ nullable: true })
   date_of_birth: string;
 
-  @Column({ length: 13 })
+  @Column({ length: 13, nullable: true })
   emergency_contact: string;
 
-  @Column()
+  @Column({ nullable: true })
   joined_at: string;
 
   @Column({ length: 2, default: "12" })
   permit_quota: string;
 
-  @Column({ nullable: false, default: () => "CURRENT_TIMESTAMP" })
+  @CreateDateColumn({ nullable: false})
   created_at: Date;
 
-  @Column({ nullable: true })
+  @UpdateDateColumn({ nullable: true })
   updated_at: Date;
 
   @OneToMany(() => AttendanceEntity, (attendance) => attendance.id)
@@ -85,11 +88,17 @@ export class BiodataEntity implements IBiodata {
   //Department Relation
   @ManyToOne(() => DepartmentEntity, (department) => department.id, {
     cascade: true,
-    nullable: false,
+    nullable: true,
   })
   @JoinColumn({
     name: "department",
     referencedColumnName: "id",
   })
   department: DepartmentEntity;
+
+  @BeforeInsert()
+    updateDates() {
+        this.created_at = new Date();
+        this.updated_at = new Date();
+    }
 }

@@ -1,4 +1,5 @@
 import {
+  BeforeInsert,
   Column,
   Entity,
   JoinColumn,
@@ -36,4 +37,10 @@ export class TokenEntity implements IToken {
     referencedColumnName: "id",
   })
   user: UserEntity;
+
+  @BeforeInsert()
+    updateDates() {
+        this.created_at = new Date();
+        this.updated_at = new Date();
+    }
 }

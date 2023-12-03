@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, BeforeInsert } from "typeorm";
 import { RoleEntity } from "./role.model";
 import { IPermission } from "src/entities/permission.entity";
 
@@ -13,7 +13,7 @@ export class PermissionEntity implements IPermission {
   @Column({ nullable: false, default: true })
   is_active: boolean;
 
-  @Column({ nullable: false, default: () => "CURRENT_TIMESTAMP" })
+  @Column({ nullable: false })
   created_at: Date;
 
   @Column({ nullable: true })
@@ -21,4 +21,10 @@ export class PermissionEntity implements IPermission {
 
   @ManyToMany(() => RoleEntity, (role) => role.permissions)
   role: RoleEntity[];
+
+  @BeforeInsert()
+    updateDates() {
+        this.created_at = new Date();
+        this.updated_at = new Date();
+    }
 }

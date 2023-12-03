@@ -28,7 +28,6 @@ export async function updateRole(body: RoleRequestDTO): Promise<any> {
   if (!exist) return "No role found"
 
   const data = await entityManager.save(RoleEntity, {
-    uuid: exist.uuid,
     name: body.name,
     code: body.code
   })

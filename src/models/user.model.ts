@@ -5,6 +5,7 @@ import {
   ManyToOne,
   JoinColumn,
   OneToMany,
+  BeforeInsert,
 } from "typeorm";
 import { RoleEntity } from "./role.model";
 import { TokenEntity } from "./token.model";
@@ -37,6 +38,9 @@ export class UserEntity implements IUser {
   @Column({ nullable: true })
   updated_at: Date;
 
+  @Column({ nullable: false })
+  role: string;
+  
   //Token Relation
   @OneToMany(() => TokenEntity, (token) => token.user, { cascade: true })
   tokens: TokenEntity[];
@@ -49,5 +53,11 @@ export class UserEntity implements IUser {
     name: "role",
     referencedColumnName: "code",
   })
-  role: RoleEntity;
+  userRole: RoleEntity;
+
+  @BeforeInsert()
+    updateDates() {
+        this.created_at = new Date();
+        this.updated_at = new Date();
+    }
 }

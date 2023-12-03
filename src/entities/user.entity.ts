@@ -8,9 +8,10 @@ export interface IUser {
   slug?: string;
   password?: string;
   is_active?: boolean;
+  role?: string;
   created_at?: Date;
   updated_at?: Date;
   
   tokens: IToken[]
-  role: IRole
+  userRole: IRole
 }

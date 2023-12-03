@@ -1,4 +1,5 @@
 import {
+  BeforeInsert,
   Column,
   Entity,
   Generated,
@@ -25,7 +26,7 @@ export class RoleEntity implements IRole {
   @Column({ default: true })
   is_active: boolean;
 
-  @Column({ nullable: false, default: () => "CURRENT_TIMESTAMP" })
+  @Column({ nullable: false })
   created_at: Date;
 
   @Column({ nullable: true })
@@ -47,4 +48,10 @@ export class RoleEntity implements IRole {
     },
   })
   permissions: PermissionEntity[];
+
+  @BeforeInsert()
+    updateDates() {
+        this.created_at = new Date();
+        this.updated_at = new Date();
+    }
 }

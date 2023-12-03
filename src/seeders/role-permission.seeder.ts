@@ -155,13 +155,13 @@ export const RolePermission = async () => {
 
   const name = "Tuna Salem";
   const user = await userRepository.save({
-    uuid: v4(),
     email: "tunasalem@gmail.com",
     username: "tunasalem13",
     password: await bcrypt.hash("Password01", 10),
     slug: slugify(name, "-").toLowerCase(),
+    is_active: true,
     phone: "081810180801",
-    role: role,
+    userRole: role,
   });
 
   console.log("Seeding database tables");

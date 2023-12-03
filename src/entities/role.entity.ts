@@ -1,4 +1,5 @@
 import { IPermission } from "./permission.entity";
+import { IUser } from "./user.entity";
 
 export interface IRole {
   id?: string;
@@ -8,6 +9,6 @@ export interface IRole {
   created_at?: Date;
   updated_at?: Date;
 
-  // user: IUser
+  user: IUser[]
   permissions: IPermission[]
 }

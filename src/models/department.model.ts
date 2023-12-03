@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { BiodataEntity } from "./biodata.model";
 import { IDepartment } from "src/entities/department.entity";
 
@@ -16,7 +16,7 @@ export class DepartmentEntity implements IDepartment {
   @Column()
   is_active: boolean;
 
-  @Column({ nullable: false, default: () => "CURRENT_TIMESTAMP" })
+  @Column({ nullable: false })
   created_at: Date;
 
   @Column({ nullable: true })
@@ -24,4 +24,10 @@ export class DepartmentEntity implements IDepartment {
 
   @OneToMany(() => BiodataEntity, (biodata) => biodata.department)
   biodata: BiodataEntity[];
+
+  @BeforeInsert()
+    updateDates() {
+        this.created_at = new Date();
+        this.updated_at = new Date();
+    }
 }

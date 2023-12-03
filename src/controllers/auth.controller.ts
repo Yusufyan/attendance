@@ -24,7 +24,7 @@ export async function registerController(req: Request, res: Response) {
     const body = req.body as RegisUserDTO;
     const user = await registerService(body);
 
-    res.json({
+    res.status(200).json({
       status: user.statusCode,
       message: user.message,
       data: user.data,

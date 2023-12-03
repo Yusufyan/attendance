@@ -1,4 +1,5 @@
 import {
+  BeforeInsert,
   Column,
   Entity,
   JoinColumn,
@@ -28,7 +29,7 @@ export class CompanyEntity {
   @Column()
   is_active: boolean;
 
-  @Column({ nullable: false, default: () => "CURRENT_TIMESTAMP" })
+  @Column({ nullable: false})
   created_at: Date;
 
   @Column({ nullable: true })
@@ -45,4 +46,10 @@ export class CompanyEntity {
 
   @OneToMany(() => BiodataEntity, (biodata) => biodata.company)
   biodatas: BiodataEntity;
+
+  @BeforeInsert()
+    updateDates() {
+        this.created_at = new Date();
+        this.updated_at = new Date();
+    }
 }
