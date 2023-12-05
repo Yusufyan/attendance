@@ -21,7 +21,11 @@ export async function genDepartment(body: CreateDepartmentDTO): Promise<any> {
 
 export async function getAllDepartment(): Promise<DepartmentEntity[]> {
   const entityManager = getManager();
-  return entityManager.find(DepartmentEntity);
+  return entityManager.find(DepartmentEntity, {
+    where: {
+      is_active: true,
+    }
+  });
 }
 
 export async function getDepartmentByName(
