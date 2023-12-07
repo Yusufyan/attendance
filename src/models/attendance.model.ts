@@ -6,16 +6,19 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { BiodataEntity } from "./biodata.model";
+import { Biodata } from "./biodata.model";
 import { IAttendance } from "src/entities/attendance.entity";
 
 @Entity("attendances")
-export class AttendanceEntity implements IAttendance {
+export class Attendances implements IAttendance {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ length: 50 })
   employee: string;
+
+  @Column({ length: 25 })
+  coordinate: string;
 
   @Column()
   checkin: Date;
@@ -29,7 +32,7 @@ export class AttendanceEntity implements IAttendance {
   @Column()
   at_office: boolean;
 
-  @ManyToOne(() => BiodataEntity, (biodata) => biodata.id, {
+  @ManyToOne(() => Biodata, (biodata) => biodata.id, {
     cascade: true,
     nullable: false,
   })
@@ -37,5 +40,5 @@ export class AttendanceEntity implements IAttendance {
     name: "biodata",
     referencedColumnName: "id",
   })
-  biodata: BiodataEntity;
+  biodata: Biodata;
 }

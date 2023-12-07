@@ -8,12 +8,12 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { PermissionEntity } from "./permission.model";
-import { UserEntity } from "./user.model";
+import { Permission } from "./permission.model";
+import { User } from "./user.model";
 import { IRole } from "src/entities/role.entity";
 
-@Entity("roles")
-export class RoleEntity implements IRole {
+@Entity("mst_roles")
+export class Role implements IRole {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -32,10 +32,10 @@ export class RoleEntity implements IRole {
   @Column({ nullable: true })
   updated_at: Date;
 
-  @OneToMany(() => UserEntity, (user) => user.role, { cascade: true })
-  user: UserEntity[];
+  @OneToMany(() => User, (user) => user.role, { cascade: true })
+  user: User[];
 
-  @ManyToMany(() => PermissionEntity, { cascade: true })
+  @ManyToMany(() => Permission, { cascade: true })
   @JoinTable({
     name: "role_permission",
     joinColumn: {
@@ -47,7 +47,7 @@ export class RoleEntity implements IRole {
       referencedColumnName: "id",
     },
   })
-  permissions: PermissionEntity[];
+  permissions: Permission[];
 
   @BeforeInsert()
     updateDates() {

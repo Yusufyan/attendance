@@ -1,8 +1,8 @@
 import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { BiodataEntity } from "./biodata.model";
+import { Biodata } from "./biodata.model";
 import { IDepartment } from "src/entities/department.entity";
 
-@Entity("departments")
+@Entity("mst_departments")
 export class DepartmentEntity implements IDepartment {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -22,8 +22,8 @@ export class DepartmentEntity implements IDepartment {
   @Column({ nullable: true })
   updated_at: Date;
 
-  @OneToMany(() => BiodataEntity, (biodata) => biodata.department)
-  biodata: BiodataEntity[];
+  @OneToMany(() => Biodata, (biodata) => biodata.department)
+  biodata: Biodata[];
 
   @BeforeInsert()
     updateDates() {

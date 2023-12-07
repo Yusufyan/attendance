@@ -10,14 +10,15 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { UserEntity } from "./user.model";
+import { User } from "./user.model";
 import { DepartmentEntity } from "./department.model";
-import { CompanyEntity } from "./company.model";
-import { AttendanceEntity } from "./attendance.model";
+import { Company } from "./company.model";
+import { Attendances } from "./attendance.model";
 import { IBiodata } from "src/entities/biodata.entity";
+import { Designation } from "./designation.model";
 
 @Entity("biodatas")
-export class BiodataEntity implements IBiodata {
+export class Biodata implements IBiodata {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -27,7 +28,7 @@ export class BiodataEntity implements IBiodata {
   @Column({ length: 50, nullable: true })
   employee_type: string;
 
-  @Column({ length: 50, nullable: true })
+  @Column({ nullable: true })
   designation: string;
 
   @Column({ length: 100, nullable: true })
@@ -60,11 +61,11 @@ export class BiodataEntity implements IBiodata {
   @UpdateDateColumn({ nullable: true })
   updated_at: Date;
 
-  @OneToMany(() => AttendanceEntity, (attendance) => attendance.id)
-  attendances: AttendanceEntity[];
+  @OneToMany(() => Attendances, (attendance) => attendance.id)
+  attendances: Attendances[];
 
   //User Relation
-  @OneToOne(() => UserEntity, (user) => user.id, {
+  @OneToOne(() => User, (user) => user.id, {
     cascade: true,
     nullable: true,
   })
@@ -72,10 +73,21 @@ export class BiodataEntity implements IBiodata {
     name: "user",
     referencedColumnName: "id",
   })
-  user: UserEntity;
+  user: User;
 
+  // Designation Relation
+  @ManyToOne(() => Designation, (designation) => designation.id, {
+    cascade: false,
+    nullable: true,
+  })
+  @JoinColumn({
+    name: "designation",
+    referencedColumnName: "id"
+  })
+  usedDesignation: Designation
+  
   //Company Relation
-  @ManyToOne(() => CompanyEntity, (company) => company.id, {
+  @ManyToOne(() => Company, (company) => company.id, {
     cascade: true,
     nullable: true,
   })
@@ -83,7 +95,7 @@ export class BiodataEntity implements IBiodata {
     name: "company",
     referencedColumnName: "id",
   })
-  company: CompanyEntity;
+  company: Company;
 
   //Department Relation
   @ManyToOne(() => DepartmentEntity, (department) => department.id, {

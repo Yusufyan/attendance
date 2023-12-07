@@ -7,10 +7,10 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { BiodataEntity } from "./biodata.model";
+import { Biodata } from "./biodata.model";
 
-@Entity("companies")
-export class CompanyEntity {
+@Entity("mst_companies")
+export class Company {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -35,17 +35,17 @@ export class CompanyEntity {
   @Column({ nullable: true })
   updated_at: Date;
 
-  @OneToOne(() => BiodataEntity, (biodata) => biodata.id, {
+  @OneToOne(() => Biodata, (biodata) => biodata.id, {
     nullable: false,
   })
   @JoinColumn({
     name: "biodata",
     referencedColumnName: "id",
   })
-  pic: BiodataEntity;
+  pic: Biodata;
 
-  @OneToMany(() => BiodataEntity, (biodata) => biodata.company)
-  biodatas: BiodataEntity;
+  @OneToMany(() => Biodata, (biodata) => biodata.company)
+  biodatas: Biodata;
 
   @BeforeInsert()
     updateDates() {

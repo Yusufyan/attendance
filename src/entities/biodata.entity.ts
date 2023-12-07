@@ -1,5 +1,6 @@
 import { IAttendance } from "./attendance.entity";
 import { ICompany } from "./company.entity";
+import { IDesignation } from "./designation.entity";
 
 export interface IBiodata {
   id?: string;
@@ -19,4 +20,5 @@ export interface IBiodata {
 
   company: ICompany;
   attendances: IAttendance[];
+  usedDesignation: IDesignation;
 }

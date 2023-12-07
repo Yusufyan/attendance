@@ -1,7 +1,7 @@
 import { DepartmentEntity } from "../models/department.model";
 import { getManager } from "typeorm";
 import { CreateDepartmentDTO, UpdDepartmentByNameDTO } from "../dtos/department.dto";
-import { Response } from "../helpers/response.helper";
+import ApiError from "../configs/api-error.config";
 import slugify from "slugify";
 
 export async function genDepartment(body: CreateDepartmentDTO): Promise<any> {
@@ -10,7 +10,7 @@ export async function genDepartment(body: CreateDepartmentDTO): Promise<any> {
     where: { name: body.name },
   });
 
-  if (existDepartment) return Response(409, "Department Data Duplicate", "");
+  if (existDepartment) throw new ApiError(409, "Department Data Duplicate");
 
   return entityManager.save(DepartmentEntity, {
     name: body.name,

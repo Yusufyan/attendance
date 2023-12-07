@@ -7,13 +7,13 @@ import {
   OneToMany,
   BeforeInsert,
 } from "typeorm";
-import { RoleEntity } from "./role.model";
-import { TokenEntity } from "./token.model";
+import { Role } from "./role.model";
+import { Token } from "./token.model";
 import { v4 as uuidv4 } from "uuid";
 import { IUser } from "src/entities/user.entity";
 
-@Entity("users")
-export class UserEntity implements IUser {
+@Entity("mst_users")
+export class User implements IUser {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -42,18 +42,18 @@ export class UserEntity implements IUser {
   role: string;
   
   //Token Relation
-  @OneToMany(() => TokenEntity, (token) => token.user, { cascade: true })
-  tokens: TokenEntity[];
+  @OneToMany(() => Token, (token) => token.user, { cascade: true })
+  tokens: Token[];
 
   //Role Relation
-  @ManyToOne(() => RoleEntity, (role) => role.code, {
+  @ManyToOne(() => Role, (role) => role.code, {
     nullable: false,
   })
   @JoinColumn({
     name: "role",
     referencedColumnName: "code",
   })
-  userRole: RoleEntity;
+  userRole: Role;
 
   @BeforeInsert()
     updateDates() {

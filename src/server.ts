@@ -9,13 +9,14 @@ import { logging } from "./utils/logging.util";
 import { RolePermission } from "./seeders/role-permission.seeder";
 import authRouter from "./routers/auth.router";
 import departmentRouter from "./routers/department.router";
+import { ResponseHandler } from "./middlewares/response.middleware";
 
 const app: Application = express();
 const port: number = Number(env.APP_PORT);
 
 app.use(bodyParser.json());
 app.use(cors());
-
+app.use(ResponseHandler)
 //Check health
 app.get("/", (req: Request, res: Response) => {
   res.json({ msg: "Healthy buddy" });

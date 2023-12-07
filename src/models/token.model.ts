@@ -6,11 +6,11 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { UserEntity } from "./user.model";
+import { User } from "./user.model";
 import { IToken } from "src/entities/token.entity";
 
 @Entity("tokens")
-export class TokenEntity implements IToken {
+export class Token implements IToken {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -29,14 +29,14 @@ export class TokenEntity implements IToken {
   @Column({ nullable: true })
   updated_at: Date;
 
-  @ManyToOne(() => UserEntity, (user) => user.id, {
+  @ManyToOne(() => User, (user) => user.id, {
     nullable: false,
   })
   @JoinColumn({
     name: "user",
     referencedColumnName: "id",
   })
-  user: UserEntity;
+  user: User;
 
   @BeforeInsert()
     updateDates() {

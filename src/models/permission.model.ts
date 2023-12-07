@@ -1,9 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, BeforeInsert } from "typeorm";
-import { RoleEntity } from "./role.model";
+import { Role } from "./role.model";
 import { IPermission } from "src/entities/permission.entity";
 
-@Entity("permissions")
-export class PermissionEntity implements IPermission {
+@Entity("mst_permissions")
+export class Permission implements IPermission {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -19,8 +19,8 @@ export class PermissionEntity implements IPermission {
   @Column({ nullable: true })
   updated_at: Date;
 
-  @ManyToMany(() => RoleEntity, (role) => role.permissions)
-  role: RoleEntity[];
+  @ManyToMany(() => Role, (role) => role.permissions)
+  role: Role[];
 
   @BeforeInsert()
     updateDates() {

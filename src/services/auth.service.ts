@@ -10,16 +10,16 @@ import {
   generateToken,
   encryptOTP,
 } from "../utils/common.util";
-import { UserEntity } from "../models/user.model";
-import { BiodataEntity } from "../models/biodata.model";
-import { TokenEntity } from "../models/token.model";
+import { User } from "../models/user.model";
+import { Biodata } from "../models/biodata.model";
+import { Token } from "../models/token.model";
 import { LoginUserDTO, RegisUserDTO } from "../dtos/user.dto";
 import { ApiResponse } from "../dtos/genericResponse.dto";
-import { Response } from "../helpers/response.helper";
+import ApiError from "../configs/api-error.config";
 
 export async function loginService(body: LoginUserDTO): Promise<any> {
   const entityManager = getManager();
-  const dataUser = await entityManager.findOne(UserEntity, {
+  const dataUser = await entityManager.findOne(User, {
     where: [
       { username: body.emailOrUsername },
       { email: body.emailOrUsername },
@@ -31,28 +31,30 @@ export async function loginService(body: LoginUserDTO): Promise<any> {
       },
     },
   });
-  const validate = bcrypt.compare(body.password, dataUser.password);
 
-  if (!dataUser) return Response(401, "Unauhorized", "");
-  if (!validate) return Response(401, "Unauhorized", "");
+  if (!dataUser) throw new ApiError(401, "Bad Credential")
+
+  const validate = await bcrypt.compare(body.password, dataUser.password);
+
+  if (!validate) throw new ApiError(401, "Bad Credential")
 
   const token = jwt.sign(
     { userId: dataUser.id, roleId: dataUser.userRole.code },
     env.SECRET_KEY,
     { expiresIn: "1d" }
   );
-  return Response(200, "Login Successfully", token);
+  return { token }
 }
 
 export async function registerService(
   body: RegisUserDTO
 ): Promise<ApiResponse<any>> {
   const entityManager = getManager();
-  const existUser = await entityManager.findOne(UserEntity, {
+  const existUser = await entityManager.findOne(User, {
     where: { email: body.email, username: body.name },
   });
 
-  if (existUser) return Response(409, "Failed! Duplicate User Data", "");
+  if (existUser) throw new ApiError(409, 'Email or Username has been registered')
 
   const role = body.role !== null && body.role !== "" ? body.role : "MPLY";
   const token = CryptoJS.AES.encrypt(
@@ -61,7 +63,7 @@ export async function registerService(
   ).toString();
   const expiredToken = generateExpDate(new Date());
 
-  const registUser = await entityManager.save(UserEntity, {
+  const registUser = await entityManager.save(User, {
     email: body.email,
     username: body.name,
     slug: slugify(body.name, "-").toLowerCase(),
@@ -69,7 +71,7 @@ export async function registerService(
     role: role,
   });
 
-  const dataUser = await entityManager.find(UserEntity, {
+  const dataUser = await entityManager.find(User, {
     where: { role: role },
   });
 
@@ -81,13 +83,13 @@ export async function registerService(
     employeeId = generateEmployeeID("HR", dataUser.length);
   }
 
-  await entityManager.save(TokenEntity, {
+  await entityManager.save(Token, {
     token: token,
     expired_in: expiredToken,
     user: registUser,
   });
 
-  await entityManager.save(BiodataEntity, {
+  await entityManager.save(Biodata, {
     fullname: body.fullname,
     user: registUser,
     phone: body.phone,
@@ -96,13 +98,13 @@ export async function registerService(
 
   await sendEmail(body.email, token, '');
 
-  return Response(200, "Register User Successfull", "");
+  return
 }
 
 export async function generateOTP(email: string) {
   const entityManager = getManager();
   const getToken = await entityManager
-    .createQueryBuilder(TokenEntity, "token")
+    .createQueryBuilder(Token, "token")
     .innerJoinAndSelect("token.user", "user")
     .where("user.email = :email", { email })
     .getOne();
@@ -112,13 +114,13 @@ export async function generateOTP(email: string) {
   const url = `http://localhost:3000/auth/validate/${otp}`
 
   if(getToken.expired_in <= new Date()) {
-    await entityManager.delete(TokenEntity, {
+    await entityManager.delete(Token, {
       where: {
         user: getToken.id
       }
     })
     
-    const newOTP = await entityManager.save(TokenEntity, {
+    const newOTP = await entityManager.save(Token, {
       token: token,
       expired_in: generateExpDate(new Date()),
       user: getToken.user
@@ -126,10 +128,11 @@ export async function generateOTP(email: string) {
     
     await sendEmail(email, token, url)
     
-    return Response(200, 'Generate Token Successfully, please check email', '')
-  } else {
-    return Response(400, 'Token not expired', '')
+    return { newOTP }
   }
+  //  else {
+  //   throw new ApiError(400, 'Token not expired')
+  // }
 }
 
 export async function validateToken(token: string) {
