@@ -59,7 +59,7 @@ export async function registerService(
   const role = body.role !== null && body.role !== "" ? body.role : "MPLY";
   const token = CryptoJS.AES.encrypt(
     generateToken(),
-    "secret passphrase"
+    env.SECRET_KEY
   ).toString();
   const expiredToken = generateExpDate(new Date());
 

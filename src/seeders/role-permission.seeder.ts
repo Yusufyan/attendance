@@ -1,22 +1,22 @@
 import { getConnection, getRepository } from "typeorm";
 import bcrypt from "bcrypt";
 
-import { RoleEntity } from "../models/role.model";
-import { PermissionEntity } from "../models/permission.model";
-import { UserEntity } from "../models/user.model";
+import { Role } from "../models/role.model";
+import { Permission } from "../models/permission.model";
+import { User } from "../models/user.model";
 import { v4 } from "uuid";
 import slugify from "slugify";
 
 export const RolePermission = async () => {
   const connection = getConnection();
 
-  const roleEntityMetadata = connection.getMetadata(RoleEntity);
-  const permissionEntityMetadata = connection.getMetadata(PermissionEntity);
-  const userEntityMetadata = connection.getMetadata(UserEntity);
+  const roleEntityMetadata = connection.getMetadata(Role);
+  const permissionEntityMetadata = connection.getMetadata(Permission);
+  const userEntityMetadata = connection.getMetadata(User);
 
-  const roleRepository = getRepository(RoleEntity);
-  const permissionRepository = getRepository(PermissionEntity);
-  const userRepository = getRepository(UserEntity);
+  const roleRepository = getRepository(Role);
+  const permissionRepository = getRepository(Permission);
+  const userRepository = getRepository(User);
 
   await roleRepository.delete({});
   await permissionRepository.delete({});
@@ -73,11 +73,9 @@ export const RolePermission = async () => {
     "create:user",
     "read:user",
     "update:user",
-    "delete:user",
     "create:department",
     "read:department",
     "update:department",
-    "delete:department",
     "create:biodata",
     "read:biodata",
     "update:biodata",
@@ -89,14 +87,6 @@ export const RolePermission = async () => {
   ];
 
   const permissionNameListEmployee = [
-    "create:user",
-    "read:user",
-    "update:user",
-    "delete:user",
-    "create:department",
-    "read:department",
-    "update:department",
-    "delete:department",
     "create:biodata",
     "read:biodata",
     "update:biodata",
