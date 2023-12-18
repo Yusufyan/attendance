@@ -11,3 +11,18 @@ export interface RegisUserDTO {
   password: string
   role: string
 }
+
+export interface ForgetPasswordDTO {
+  email: string
+}
+
+export interface ResetPasswordDTO {
+  password: string
+  confirmPassword: string
+}
+
+export interface ChangePasswordDTO {
+  oldPassword: string
+  newPassword: string
+  confirmPassword: string
+}

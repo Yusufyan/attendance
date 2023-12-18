@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, BeforeInsert } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, BeforeInsert, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { Role } from "./role.model";
 import { IPermission } from "src/entities/permission.entity";
 
@@ -13,10 +13,10 @@ export class Permission implements IPermission {
   @Column({ nullable: false, default: true })
   is_active: boolean;
 
-  @Column({ nullable: false })
+  @CreateDateColumn({ nullable: false })
   created_at: Date;
 
-  @Column({ nullable: true })
+  @UpdateDateColumn({ nullable: true })
   updated_at: Date;
 
   @ManyToMany(() => Role, (role) => role.permissions)

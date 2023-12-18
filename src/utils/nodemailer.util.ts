@@ -7,9 +7,6 @@ import path from 'path';
 export async function sendEmail(email: string, token: string, url: string) {
   const filePath = path.join('src', 'templates', 'mail.html');
   const htmlContent = fs.readFileSync(filePath, 'utf-8');
-  console.log("Email: ",email)
-  console.log("TOKEK: ",token)
-  console.log("URI: ", url)
 
   return new Promise<object>((resolve, reject) => {
     const transporter = nodemailer.createTransport({
@@ -39,8 +36,6 @@ export async function sendEmail(email: string, token: string, url: string) {
   };
 
     transporter.sendMail(mailOptions, (error, result) => {
-      console.log(result)
-      console.log(error)
       result ? resolve(result) : reject(error)
     })
   })

@@ -17,7 +17,7 @@ export function ResponseHandler(
   res.success = function (message: string, data: any): Response {
     return res.status(200).json({
       statusCode: 200,
-      message,
+      message: message,
       data,
     })
   }
@@ -29,4 +29,5 @@ export function ResponseHandler(
       data: []
     })
   }
+  next()
 }

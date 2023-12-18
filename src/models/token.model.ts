@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./user.model";
-import { IToken } from "src/entities/token.entity";
+import { IToken, PToken } from "../entities/token.entity";
 
 @Entity("tokens")
 export class Token implements IToken {
@@ -19,6 +19,9 @@ export class Token implements IToken {
 
   @Column({ default: true })
   is_active: boolean;
+
+  @Column({ nullable: true })
+  purpose: PToken;
 
   @Column()
   expired_in: Date;

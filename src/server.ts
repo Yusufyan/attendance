@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import express, { Application, Request, Response } from "express";
+import express, { Application, NextFunction, Request, Response } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import { env } from "./configs/environment.config";
@@ -39,3 +39,4 @@ createConnection(configDb)
 app.use("/auth", authRouter);
 //Department Router
 app.use("/department", departmentRouter);
+

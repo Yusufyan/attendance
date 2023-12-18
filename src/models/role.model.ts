@@ -1,12 +1,14 @@
 import {
   BeforeInsert,
   Column,
+  CreateDateColumn,
   Entity,
   Generated,
   JoinTable,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { Permission } from "./permission.model";
 import { User } from "./user.model";
@@ -26,10 +28,10 @@ export class Role implements IRole {
   @Column({ default: true })
   is_active: boolean;
 
-  @Column({ nullable: false })
+  @CreateDateColumn({ nullable: false })
   created_at: Date;
 
-  @Column({ nullable: true })
+  @UpdateDateColumn({ nullable: true })
   updated_at: Date;
 
   @OneToMany(() => User, (user) => user.role, { cascade: true })
