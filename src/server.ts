@@ -10,6 +10,7 @@ import { RolePermission } from "./seeders/role-permission.seeder";
 import authRouter from "./routers/auth.router";
 import departmentRouter from "./routers/department.router";
 import { ResponseHandler } from "./middlewares/response.middleware";
+import attendRouter from "./routers/attendance.router";
 
 const app: Application = express();
 const port: number = Number(env.APP_PORT);
@@ -39,4 +40,5 @@ createConnection(configDb)
 app.use("/auth", authRouter);
 //Department Router
 app.use("/department", departmentRouter);
-
+//Attendance Router
+app.use("/attendance", attendRouter);

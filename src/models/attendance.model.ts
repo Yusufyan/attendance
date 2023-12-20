@@ -8,37 +8,44 @@ import {
 } from "typeorm";
 import { Biodata } from "./biodata.model";
 import { IAttendance } from "src/entities/attendance.entity";
+import { User } from "./user.model";
 
 @Entity("attendances")
 export class Attendances implements IAttendance {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ length: 50 })
-  employee: string;
+  @Column({nullable: false})
+  coordinatesIn: string;
 
-  @Column({ length: 25 })
-  coordinate: string;
+  @Column({nullable: true})
+  coordinatesOut: string;
 
   @Column()
   checkin: Date;
 
-  @Column()
+  @Column({ nullable: true})
   checkout: Date;
 
-  @Column()
+  @Column({ nullable: true })
   evidence: string;
 
   @Column()
   at_office: boolean;
 
-  @ManyToOne(() => Biodata, (biodata) => biodata.id, {
+  @Column({ nullable: false, default: () => "CURRENT_TIMESTAMP" })
+  created_at: Date;
+
+  @Column({ nullable: false, default: () => "CURRENT_TIMESTAMP" })
+  updated_at: Date;
+
+  @ManyToOne(() => User, (user) => user.id, {
     cascade: true,
     nullable: false,
   })
   @JoinColumn({
-    name: "biodata",
+    name: "employee",
     referencedColumnName: "id",
   })
-  biodata: Biodata;
+  employee: User;
 }
